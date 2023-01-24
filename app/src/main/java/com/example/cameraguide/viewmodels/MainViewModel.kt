@@ -1,4 +1,4 @@
-package com.example.cameraguide.ui.main
+package com.example.cameraguide.viewmodels
 
 import androidx.lifecycle.ViewModel
 
