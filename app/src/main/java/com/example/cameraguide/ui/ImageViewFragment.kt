@@ -13,21 +13,17 @@ import com.example.cameraguide.utils.toBitmap
 
 private const val ARG_PARAM1 = "param1"
 
-@ExperimentalGetImage class ImageFragment(
+@ExperimentalGetImage class ImageViewFragment(
     private var imageProxy: ImageProxy
 ) : Fragment() {
 
     companion object {
         @JvmStatic
         fun newInstance(image: ImageProxy) =
-            ImageFragment(image)
+            ImageViewFragment(image)
     }
 
     private lateinit var _binding: FragmentImageBinding
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
