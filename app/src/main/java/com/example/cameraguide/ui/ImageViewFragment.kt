@@ -11,8 +11,6 @@ import com.example.cameraguide.databinding.FragmentImageBinding
 import com.example.cameraguide.utils.rotate
 import com.example.cameraguide.utils.toBitmap
 
-private const val ARG_PARAM1 = "param1"
-
 @ExperimentalGetImage class ImageViewFragment(
     private var imageProxy: ImageProxy
 ) : Fragment() {

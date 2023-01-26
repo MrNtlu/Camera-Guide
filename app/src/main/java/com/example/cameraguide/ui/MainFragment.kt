@@ -42,9 +42,6 @@ class MainFragment : Fragment() {
     private lateinit var cameraExecutor: ExecutorService
 
     /*TODO
-     * Record video and show to the user.
-     * Get images from gallery and display at the bottom like instagram.
-     * Ask user take photo or select from gallery.
      * Scale/Compress/Edit Images
      */
 

@@ -4,14 +4,12 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import com.example.cameraguide.ui.EntryFragment
-import com.example.cameraguide.ui.MainFragment
 import com.example.cameraguide.viewmodels.SharedViewModel
 
 class MainActivity : AppCompatActivity() {
@@ -39,11 +37,8 @@ class MainActivity : AppCompatActivity() {
 
     private val onBackPressedCallback: OnBackPressedCallback = object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
-            Log.d(TAG, "handleOnBackPressed: ")
             val count = supportFragmentManager.backStackEntryCount
-            if (count == 0) {
-                Log.d(TAG, "handleOnBackPressed: None")
-            } else {
+            if (count != 0) {
                 supportFragmentManager.popBackStack()
             }
         }

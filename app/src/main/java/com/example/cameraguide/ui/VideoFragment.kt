@@ -11,10 +11,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import android.widget.VideoView
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.video.*
+import androidx.camera.video.impl.VideoCaptureConfig
 import androidx.core.content.ContextCompat
 import androidx.core.content.PermissionChecker
 import androidx.lifecycle.ViewModelProvider
@@ -95,6 +97,9 @@ class VideoFragment : Fragment() {
             .Builder(requireActivity().contentResolver, MediaStore.Video.Media.EXTERNAL_CONTENT_URI)
             .setContentValues(contentValues)
             .build()
+
+
+
         recording = videoCapture.output
             .prepareRecording(requireContext(), mediaStoreOutputOptions)
             .apply {
@@ -117,8 +122,10 @@ class VideoFragment : Fragment() {
                     is VideoRecordEvent.Finalize -> {
                         if (!recordEvent.hasError()) {
                             val msg = "Video capture succeeded: ${recordEvent.outputResults.outputUri}"
-                            Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT)
-                                .show()
+                            parentFragmentManager.beginTransaction()
+                                .replace(R.id.container, VideoViewFragment.newInstance(recordEvent.outputResults.outputUri))
+                                .addToBackStack(null)
+                                .commit()
                             Log.d(TAG, msg)
                         } else {
                             recording?.close()
