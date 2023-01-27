@@ -11,16 +11,16 @@ import android.webkit.MimeTypeMap
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
-import com.example.cameraguide.databinding.FragmentImagePickerBinding
+import com.example.cameraguide.databinding.FragmentPhotoPickerBinding
 import java.util.*
 
-class ImagePickerFragment : Fragment() {
+class PhotoPickerFragment : Fragment() {
 
     companion object {
-        fun newInstance() = ImagePickerFragment()
+        fun newInstance() = PhotoPickerFragment()
     }
 
-    private lateinit var _binding: FragmentImagePickerBinding
+    private lateinit var _binding: FragmentPhotoPickerBinding
     private var _index = 0
     private val list = mutableListOf<Uri>()
 
@@ -43,7 +43,7 @@ class ImagePickerFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentImagePickerBinding.inflate(inflater, container, false)
+        _binding = FragmentPhotoPickerBinding.inflate(inflater, container, false)
         return _binding.root
     }
 
@@ -51,6 +51,8 @@ class ImagePickerFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         _binding.pickImageButton.setOnClickListener {
+            _index = 0
+            list.clear()
             pickMultipleMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageAndVideo))
         }
 
@@ -73,7 +75,6 @@ class ImagePickerFragment : Fragment() {
     }
 
     private fun setImage() {
-        _index = 0
         _binding.nextButton.visibility = if (list.isEmpty()) View.GONE else View.VISIBLE
         _binding.previousButton.visibility = if (list.isEmpty()) View.GONE else View.VISIBLE
 

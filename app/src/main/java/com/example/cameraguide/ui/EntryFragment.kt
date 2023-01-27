@@ -43,7 +43,7 @@ class EntryFragment : Fragment() {
 
         _binding.imagePickerButton.setOnClickListener {
             parentFragmentManager.beginTransaction()
-                .replace(R.id.container, ImagePickerFragment.newInstance())
+                .replace(R.id.container, PhotoPickerFragment.newInstance())
                 .addToBackStack(null)
                 .commit()
         }

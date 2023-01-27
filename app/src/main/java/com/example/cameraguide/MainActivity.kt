@@ -14,7 +14,6 @@ import com.example.cameraguide.viewmodels.SharedViewModel
 
 class MainActivity : AppCompatActivity() {
     companion object {
-        private const val TAG = "CameraXApp"
         private const val REQUEST_CODE_PERMISSIONS = 10
         private val REQUIRED_PERMISSIONS =
             mutableListOf (
@@ -23,12 +22,6 @@ class MainActivity : AppCompatActivity() {
             ).apply {
                 if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
                     add(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                }
-
-                if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.S_V2) {
-                    add(Manifest.permission.READ_EXTERNAL_STORAGE)
-                } else {
-                    add(Manifest.permission.READ_MEDIA_IMAGES)
                 }
             }.toTypedArray()
     }

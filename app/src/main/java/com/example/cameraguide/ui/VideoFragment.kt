@@ -10,13 +10,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import android.widget.VideoView
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.video.*
-import androidx.camera.video.impl.VideoCaptureConfig
 import androidx.core.content.ContextCompat
 import androidx.core.content.PermissionChecker
 import androidx.lifecycle.ViewModelProvider
@@ -70,19 +67,23 @@ class VideoFragment : Fragment() {
     }
 
     private fun captureVideo() {
+        // Check if the VideoCapture use case has been created: if not, do nothing.
         val videoCapture = this.videoCapture ?: return
 
         _binding.videoCaptureButton.isEnabled = false
 
+        // If there is an active recording in progress, stop it and release the current recording.
+        // We will be notified when the captured video file is ready to be used by our application.
         val curRecording = recording
         if (curRecording != null) {
-            // Stop the current recording session.
             curRecording.stop()
             recording = null
             return
         }
 
-        // create and start a new recording session
+        // To start recording, we create a new recording session.
+        // First we create our intended MediaStore video content object,
+        // with system timestamp as the display name(so we could capture multiple videos).
         val name = SimpleDateFormat(FILENAME_FORMAT, Locale.US)
             .format(System.currentTimeMillis())
         val contentValues = ContentValues().apply {
@@ -97,8 +98,6 @@ class VideoFragment : Fragment() {
             .Builder(requireActivity().contentResolver, MediaStore.Video.Media.EXTERNAL_CONTENT_URI)
             .setContentValues(contentValues)
             .build()
-
-
 
         recording = videoCapture.output
             .prepareRecording(requireContext(), mediaStoreOutputOptions)

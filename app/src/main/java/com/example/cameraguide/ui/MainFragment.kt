@@ -41,10 +41,6 @@ class MainFragment : Fragment() {
 
     private lateinit var cameraExecutor: ExecutorService
 
-    /*TODO
-     * Scale/Compress/Edit Images
-     */
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
@@ -64,7 +60,6 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         sharedViewModel.isPermissionGranted.observe(viewLifecycleOwner) {
-            Log.d(TAG, "onViewCreated: $it")
             if (it) startCamera()
         }
 
@@ -77,6 +72,11 @@ class MainFragment : Fragment() {
 
     private fun capturePhoto() {
         val imageCapture = imageCapture ?: return
+
+        /** https://developer.android.com/training/camerax/take-photo
+         * takePicture(Executor, OnImageCapturedCallback): This method provides an in-memory buffer of the captured image.
+         * takePicture(OutputFileOptions, Executor, OnImageSavedCallback): This method saves the captured image to the provided file location.
+         */
 
         imageCapture.takePicture(
             ContextCompat.getMainExecutor(requireContext()),
@@ -153,7 +153,15 @@ class MainFragment : Fragment() {
                 }
 
             //Image
-            imageCapture = ImageCapture.Builder().build()
+            imageCapture = ImageCapture.Builder()
+                /**
+                 * Use ImageCapture.Builder.setCaptureMode() to configure the capture mode when taking a photo:
+                 * - CAPTURE_MODE_MINIMIZE_LATENCY: optimize image capture for latency.
+                 * - CAPTURE_MODE_MAXIMIZE_QUALITY: optimize image capture for image quality.
+                 * The capture mode defaults to CAPTURE_MODE_MINIMIZE_LATENCY
+                 */
+                .setCaptureMode(ImageCapture.CAPTURE_MODE_MINIMIZE_LATENCY)
+                .build()
 
             // Select back camera as a default
             val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
